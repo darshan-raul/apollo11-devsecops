@@ -1,6 +1,60 @@
 # devsecops-primer
 
-- WAF
+
+Security in Devops can be categorised as:
+- Source code review
+- dependency checking
+- compliance review
+- automated security scans
+- penetration testing
+- security incidents and response
+
+- Shift the security left ie. Start it at a early stage
+
+
+Devsecops : Effort to be "secure by default"
+- integrate security via tools
+- create security as code culture
+- promote cross skilling
+
+== Planning stage
+
+- Threat modelling 
+
+== Developer stage
+
+- pre-commit hooks - talisman
+
+== Source code stage
+
+- secrets management - vault
+
+== CI stage
+
+- dependency checks - dependency checker
+- SAST (static analysis security testing ) (source code review) - semgrep/veracode/checkmark
+- find sec bugs
+
+== Before deployin
+
+- Container scanning - Trivy
+
+== After code is deployed
+
+- DAST (Dynamic analysis security testing) - OWASP zap 
+- Vulnerability assessment tool - OpenVAS 
+- Compliance as code - chef Inspec
+
+- CENTRAL vulnerabity management tool - archerysec
+
+== Security events
+
+- security incidents and response - EFK (elastalert)
+- WAF - modsecurity
+
+
+
+====================================
 
 - Containers
     - Container image scanning
@@ -48,3 +102,4 @@ Methodologies:
 ## References:
 - https://aws.amazon.com/blogs/devops/building-end-to-end-aws-devsecops-ci-cd-pipeline-with-open-source-sca-sast-and-dast-tools/
 - https://www.infoq.com/presentations/devsecops-2019/
+- https://www.youtube.com/watch?v=-v3fs-i2O8w DevSecOps - Automating Security in DevOps | Jovin Lobo | Nullcon Webinar 2021
