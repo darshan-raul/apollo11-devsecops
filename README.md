@@ -44,7 +44,8 @@ Devsecops : Effort to be "secure by default"
 - DAST (Dynamic analysis security testing) - OWASP zap 
 - Vulnerability assessment tool - OpenVAS 
 - Compliance as code - chef Inspec
-
+- RASP ( Runtime Application Security) 
+    - Watches a company's application at runtime , analyzing its behaviour as well as context in which the behaviour occurs.
 - CENTRAL vulnerabity management tool - archerysec
 
 == Security events
