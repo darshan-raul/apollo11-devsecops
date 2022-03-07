@@ -1,5 +1,10 @@
 # devsecops-primer
 
+DevSecOps acts like a cover or a shield for the existing DevOps practices. It can be implemented in many ways.
+
+```
+‘Shift left’ is a DevSecOps mantra: It encourages software engineers to move security from the right (end) to the left (beginning) of the DevOps (delivery) process. In a DevSecOps environment, security is an integral part of the development process from the beginning. An organization that uses DevSecOps brings in its cybersecurity architects and engineers as part of the development team. Their job is to ensure every component, and every configuration item in the stack is patched, configured securely, and documented. — IBM
+```
 
 Security in Devops can be categorised as:
 - Source code review
