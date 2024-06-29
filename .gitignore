@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#binary generated in ecom dir
+**/ecom
+!/ecom/
