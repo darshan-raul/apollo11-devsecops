@@ -1,10 +1,29 @@
-# devsecops-primer
+# Agenda
 
-DevSecOps acts like a cover or a shield for the existing DevOps practices. It can be implemented in many ways.
+This project will be a guide and will serve examples for go and python code with regards to creating a devsecops pipelines
 
-```
-‘Shift left’ is a DevSecOps mantra: It encourages software engineers to move security from the right (end) to the left (beginning) of the DevOps (delivery) process. In a DevSecOps environment, security is an integral part of the development process from the beginning. An organization that uses DevSecOps brings in its cybersecurity architects and engineers as part of the development team. Their job is to ensure every component, and every configuration item in the stack is patched, configured securely, and documented. — IBM
-```
+This repo is a sub project of a much larger [Apollo11](https://github.com/darshan-raul/Apollo11) project which covers not just the deployment aspect but overall covers all the components of creating a full fledged cloud native architecture leveraging all the possible tooling in the space.
+
+> Note: The examples here are in github actions but the methodology mentioned can be implemented in any other CI tool
+
+## What is DecSecOps?
+
+DevSecOps acts like a cover or a shield for the existing DevOps practices. 
+
+**Effort to be "secure by default"**
+
+- ‘Shift left’ is a DevSecOps mantra ie. Start it at a early stage
+- It encourages software engineers to move security from the right (end) to the left (beginning) of the DevOps (delivery) process. 
+- In a DevSecOps environment, security is an integral part of the development process from the beginning. 
+- An organization that uses DevSecOps brings in its cybersecurity architects and engineers as part of the development team. 
+- Their job is to ensure every component, and every configuration item in the stack is patched, configured securely, and documented. 
+
+
+## How do we achieve it? 
+
+- integrate security via tools
+- create security as code culture
+- promote cross skilling
 
 Security in Devops can be categorised as:
 - Source code review
@@ -14,37 +33,29 @@ Security in Devops can be categorised as:
 - penetration testing
 - security incidents and response
 
-- Shift the security left ie. Start it at a early stage
-
-
-Devsecops : Effort to be "secure by default"
-- integrate security via tools
-- create security as code culture
-- promote cross skilling
-
-== Planning stage
+### Planning stage
 
 - Threat modelling 
 
-== Developer stage
+### Developer stage
 
 - pre-commit hooks - talisman
 
-== Source code stage
+### Source code stage
 
 - secrets management - vault
 
-== CI stage
+### CI stage
 
 - dependency checks - dependency checker
 - SAST (static analysis security testing ) (source code review) - semgrep/veracode/checkmark
 - find sec bugs
 
-== Before deployin
+### Before deploying
 
 - Container scanning - Trivy
 
-== After code is deployed
+### After code is deployed
 
 - DAST (Dynamic analysis security testing) - OWASP zap 
 - Vulnerability assessment tool - OpenVAS 
@@ -60,52 +71,5 @@ Devsecops : Effort to be "secure by default"
 
 
 
-====================================
-
-- Containers
-    - Container image scanning
 
 
-- unsecured s3 buckets
-
-- insecure configuration
-    - CLoud sec configuration - static/event scan - cloudcheckr
-    - CLoud sec configuration - Audit scan:  - tenable
-    - Sandbox escaping:
-        - jumping from containers to host - aqua,twistlock,trend micro
-
-Security for Devops technologies:
-- Adapt existing security tools to new tech
-- Address new security risks new tech introduced
-
-
-Methodologies:
-
-- automated app sec testing
-    - Static
-        - Static testing (SAST)
-            - Scan code to find vulneratbilites
-            - Scan takes days , builds take minutes
-            - Adaption: incremental scans, long scans weekly, delta scans during builds
-
-    - dynamic
-        - Dynamoic testing (DAST)
-            - tests deployed instance like hacker
-            - scans take too long
-            - Adaption: IAST (instrument app, run unit-tests,deduce sec issues)
-            
-- SCA in CICD
-    - flag use of libraries with known vulnerabilities
-
-- Microservices:
-
-    - track data flows accross apps - approetto
-    - embedded install in deploy flow - signal sciences
-
-- when a container misbehaves, you just kill it 
-
-
-## References:
-- https://aws.amazon.com/blogs/devops/building-end-to-end-aws-devsecops-ci-cd-pipeline-with-open-source-sca-sast-and-dast-tools/
-- https://www.infoq.com/presentations/devsecops-2019/
-- https://www.youtube.com/watch?v=-v3fs-i2O8w DevSecOps - Automating Security in DevOps | Jovin Lobo | Nullcon Webinar 2021
