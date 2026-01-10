@@ -1,73 +1,88 @@
-# Agenda
+# Apollo 11 DevSecOps 🚀
 
-This project will be a guide and will serve examples for go and python code with regards to creating a devsecops pipelines
+Welcome to the **Apollo 11 DevSecOps** repository. This project serves as a comprehensive guide and reference implementation for building secure CI/CD pipelines using GitHub Actions. It demonstrates how to integrate security controls at every stage of the software development lifecycle (SDLC), embodying the "Shift Left" philosophy to ensure security is baked in from the start, not bolted on at the end.
 
-This repo is a sub project of a much larger [Apollo11](https://github.com/darshan-raul/Apollo11) project which covers not just the deployment aspect but overall covers all the components of creating a full fledged cloud native architecture leveraging all the possible tooling in the space.
+## 🛡️ What is DevSecOps?
 
-> Note: The examples here are in github actions but the methodology mentioned can be implemented in any other CI tool
+DevSecOps is the evolution of DevOps, integrating security practices directly into the DevOps process.
 
-## What is DecSecOps?
+*   **Security by Default**: Security is an integral part of the development process, not a separate phase.
+*   **Shift Left**: Moving security checks to the earliest possible stages of development (planning and coding) to find and fix vulnerabilities cheaper and faster.
+*   **Automation**: Leveraging tools to automate security scans, policy enforcement, and compliance checks within the CI/CD pipeline.
 
-DevSecOps acts like a cover or a shield for the existing DevOps practices. 
+## 🔄 DevSecOps Stages & Workflows
 
-**Effort to be "secure by default"**
+This repository hosts examples of GitHub Action workflows for every stage of the DevSecOps lifecycle.
 
-- ‘Shift left’ is a DevSecOps mantra ie. Start it at a early stage
-- It encourages software engineers to move security from the right (end) to the left (beginning) of the DevOps (delivery) process. 
-- In a DevSecOps environment, security is an integral part of the development process from the beginning. 
-- An organization that uses DevSecOps brings in its cybersecurity architects and engineers as part of the development team. 
-- Their job is to ensure every component, and every configuration item in the stack is patched, configured securely, and documented. 
+### 1. 📝 Plan (Threat Modeling)
+Understanding potential threats before writing a single line of code.
+*   **Activities**: Design review, Threat Modeling.
+*   **Tools**: IriusRisk, Threat Dragon.
+*   **Workflows**: Automating threat model updates and tracking security requirements.
 
+### 2. 💻 Code (Secure Coding)
+Ensuring the code written is secure and free of secrets before it enters the repository.
+*   **Pre-commit Hooks**: Prevent bad code from being committed.
+    *   *Tool*: `talisman`, `pre-commit`
+*   **Secret Scanning**: Detect hardcoded secrets (API keys, passwords, tokens).
+    *   *Tool*: **Gitleaks**, **Talisman**
+*   **IDE Plugins**: Real-time security feedback for developers.
 
-## How do we achieve it? 
+### 3. 🏗️ Build (SCA & SAST)
+Analyzing the application code and dependencies during the build process.
+*   **Software Composition Analysis (SCA)**: identifying vulnerabilities in third-party libraries and dependencies.
+    *   *Tool*: **OWASP Dependency-Check**, **Snyk**, **GitHub Dependabot**
+*   **Static Application Security Testing (SAST)**: Analyzing source code for security flaws (e.g., SQL injection, XSS) without executing it.
+    *   *Tool*: **CodeQL**, **Semgrep**, **SonarQube**, **Veracode**
 
-- integrate security via tools
-- create security as code culture
-- promote cross skilling
+### 4. 📦 Test (DAST & Container Security)
+Testing the running application and the artifacts produced.
+*   **Container Security**: Scanning Docker images for OS-level vulnerabilities and misconfigurations.
+    *   *Tool*: **Trivy**, **Grype**, **Clair**
+*   **Dynamic Application Security Testing (DAST)**: Attacking the running application to find vulnerabilities executable in a live environment.
+    *   *Tool*: **OWASP ZAP**, **Burp Suite Enterprise**
 
-Security in Devops can be categorised as:
-- Source code review
-- dependency checking
-- compliance review
-- automated security scans
-- penetration testing
-- security incidents and response
+### 5. 🚀 Deploy (IaC Security)
+Ensuring the infrastructure hosting the application is secure.
+*   **Infrastructure as Code (IaC) Scanning**: specialized SAST for Terraform, Kubernetes, CloudFormation, etc.
+    *   *Tool*: **Checkov**, **Terrascan**, **TFLint**, **Kics**
+*   **Compliance as Code**: Validating infrastructure against policy requirements.
+    *   *Tool*: **OPA (Open Policy Agent)**, **Chef InSpec**
 
-### Planning stage
+### 6. 👁️ Monitor (Runtime Security)
+Continuous monitoring of the application and infrastructure in production.
+*   **Runtime Application Self-Protection (RASP)**: Protecting the app at runtime.
+*   **Vulnerability Management**: Agregating and tracking vulnerabilities.
+    *   *Tool*: **DefectDojo**, **ArcherySec**
+*   **Security Information and Event Management (SIEM)**: Log analysis and alerting.
+    *   *Tool*: **ELK Stack**, **Splunk**
 
-- Threat modelling 
+---
 
-### Developer stage
+## ✅ Implementation Roadmap
 
-- pre-commit hooks - talisman
+Implementation of DevSecOps workflows covered in this repository.
 
-### Source code stage
+### Phase 1: Foundation & Code Security
+- [ ] **Secret Scanning Workflow**: Integrate `gitleaks` to scan for secrets in PRs and push events.
+- [ ] **Linting & formatting**: Add standard linters (e.g., `golangci-lint`, `pylint`) to ensure code quality.
+- [ ] **Pre-commit Setup**: Documentation and config for local `pre-commit` hooks (guides for users).
 
-- secrets management - vault
+### Phase 2: Build & Dependency Security
+- [ ] **SCA Workflow**: Implement **OWASP Dependency-Check** or **Trivy** (fs mode) for dependency scanning.
+- [ ] **SAST Workflow**: Set up **CodeQL** (GitHub Advanced Security) or **Semgrep** (OSS) for static analysis.
+- [ ] **Docker Build & Scan**: Create a workflow to build Docker images and scan them with **Trivy** or **Grype**.
 
-### CI stage
+### Phase 3: Infrastructure & Deployment Security
+- [ ] **IaC Scanning**: Integrate **Checkov** or **Terrascan** to scan Terraform/Kubernetes files.
+- [ ] **Kubernetes Manifest Validation**: Use `kube-linter` or verify manifests against strict policies.
 
-- dependency checks - dependency checker
-- SAST (static analysis security testing ) (source code review) - semgrep/veracode/checkmark
-- find sec bugs
+### Phase 4: Dynamic Testing
+- [ ] **DAST Workflow**: specialized workflow to deploy a test instance and run **OWASP ZAP** baseline scan.
 
-### Before deploying
-
-- Container scanning - Trivy
-
-### After code is deployed
-
-- DAST (Dynamic analysis security testing) - OWASP zap 
-- Vulnerability assessment tool - OpenVAS 
-- Compliance as code - chef Inspec
-- RASP ( Runtime Application Security) 
-    - Watches a company's application at runtime , analyzing its behaviour as well as context in which the behaviour occurs.
-- CENTRAL vulnerabity management tool - archerysec
-
-== Security events
-
-- security incidents and response - EFK (elastalert)
-- WAF - modsecurity
+### Phase 5: Reporting & Unified Dashboard
+- [ ] **Security Report Artifacts**: Ensure all scanners upload SARIF reports to GitHub Security tab (or as artifacts).
+- [ ] **DefectDojo Integration (Optional)**: Workflow to push findings to a central DefectDojo instance.
 
 
 

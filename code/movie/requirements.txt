@@ -1,4 +1,0 @@
-fastapi[standard]
-pymongo[srv]
-pydantic
-httpx
