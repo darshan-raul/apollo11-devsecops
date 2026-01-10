@@ -59,6 +59,25 @@ Continuous monitoring of the application and infrastructure in production.
 
 ---
 
+## 🛠️ GitHub Actions & GHCR Setup
+
+This repository includes CI workflows to automatically build and push Docker images to the **GitHub Container Registry (GHCR)**.
+
+### How it works
+*   **Workflows**: Located in `.github/workflows/`, there is a separate workflow for each service (e.g., `admin-dashboard`, `core-api`).
+*   **Authentication**: The workflows use the built-in `GITHUB_TOKEN` to authenticate with GHCR. No manual secret management is required for basic operations.
+*   **Triggers**: Builds are triggered on pushes to the `main` or `master` branches when changes occur in the respective service directory (e.g., `code/admin-dashboard/**`).
+
+### Prerequisites
+To ensure the workflows run successfully, your repository settings must allow GitHub Actions to write to packages.
+1.  Go to **Settings** > **Actions** > **General**.
+2.  Ensure **Workflow permissions** is set to "Read and write permissions".
+3.  Alternatively, the workflows explicitly request `packages: write` permission, which is sufficient if strictly enforced.
+
+The images will be pushed to: `ghcr.io/<your-username>/apollo11-devsecops/<service-name>:latest`
+
+---
+
 ## ✅ Implementation Roadmap
 
 Implementation of DevSecOps workflows covered in this repository.
