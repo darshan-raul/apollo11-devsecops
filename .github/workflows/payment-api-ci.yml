@@ -1,16 +1,16 @@
-name: Admin Dashboard CI
+name: Payment API CI
 
 on:
   push:
     branches: [ main, master ]
     paths:
-      - 'code/admin-dashboard/**'
-      - '.github/workflows/admin-dashboard-ci.yml'
+      - 'code/payment-api/**'
+      - '.github/workflows/payment-api-ci.yml'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/admin-dashboard
+  IMAGE_NAME: ${{ github.repository }}/payment-api
 
 jobs:
   build-and-push:
@@ -42,7 +42,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./code/admin-dashboard
+          context: ./code/payment-api
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

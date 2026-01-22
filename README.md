@@ -76,6 +76,46 @@ To ensure the workflows run successfully, your repository settings must allow Gi
 
 The images will be pushed to: `ghcr.io/<your-username>/apollo11-devsecops/<service-name>:latest`
 
+### 🔐 Private Registry & Kubernetes Configuration
+
+#### 1. Image Visibility
+By default, packages (container images) in GHCR inherit the visibility of the repository (Private or Public).
+*   **To make images Private**: Ensure your repository is Private. You can also manually adjust package visibility in GitHub under **Packages** > **Package Settings**.
+*   **To make images Public**: You can change the package settings to Public to allow anyone to pull them without authentication.
+
+#### 2. Using Images in Kubernetes
+If your images are **Private**, Kubernetes requires authentication to pull them. You must create a `docker-registry` secret called `ghcr-secret`.
+
+**Step 1: Create a Personal Access Token (PAT)**
+Create a GitHub PAT with `read:packages` permission.
+
+**Step 2: Create the Kubernetes Secret**
+Run the following command in your cluster:
+```bash
+kubectl create secret docker-registry ghcr-secret \
+  --docker-server=ghcr.io \
+  --docker-username=<your-github-username> \
+  --docker-password=<your-pat-token> \
+  --docker-email=<your-email>
+```
+
+**Step 3: Update your Deployment YAML**
+Add `imagePullSecrets` to your pod specification:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: my-app
+          image: ghcr.io/<your-username>/apollo11-devsecops/admin-dashboard:latest
+```
+
 ---
 
 ## ✅ Implementation Roadmap
