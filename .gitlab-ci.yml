@@ -1,0 +1,119 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""  # Disable TLS for dind
+
+stages:
+  - build
+
+# Template for build and push jobs
+.build_and_push_template:
+  image: docker:27
+  services:
+    - docker:27-dind # Required for Docker-in-Docker builds
+  stage: build   # Assigns the job to the build stage
+  before_script: # Preparation steps before the main script
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    # Use the service name from the job name or a variable
+    - |
+      if [ -z "$SERVICE_PATH" ]; then
+        echo "SERVICE_PATH variable is not set"
+        exit 1
+      fi
+    - IMAGE_TAG=$CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_SHORT_SHA
+    - LATEST_TAG=$CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+    - echo "Building and pushing $SERVICE_NAME from $SERVICE_PATH"
+    - docker build -t $IMAGE_TAG -t $LATEST_TAG $SERVICE_PATH
+    - docker push $IMAGE_TAG
+    - docker push $LATEST_TAG
+    # Push branch-specific tag if not on default branch
+    - |
+      if [ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]; then
+        BRANCH_TAG=$CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+        docker tag $IMAGE_TAG $BRANCH_TAG
+        docker push $BRANCH_TAG
+      fi
+
+# Core API
+core-api-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: core-api
+    SERVICE_PATH: ./code/core-api
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/core-api/**/*
+        - .gitlab-ci.yml
+
+# Jobs: Backup Service
+backup-service-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: backup-service
+    SERVICE_PATH: ./code/jobs/backup-service
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/jobs/backup-service/**/*
+        - .gitlab-ci.yml
+
+# Jobs: Report Generator
+report-generator-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: report-generator
+    SERVICE_PATH: ./code/jobs/report-generator
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/jobs/report-generator/**/*
+        - .gitlab-ci.yml
+
+# Notification Service
+notification-service-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: notification-service
+    SERVICE_PATH: ./code/notification-service
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/notification-service/**/*
+        - .gitlab-ci.yml
+
+# Payment API
+payment-api-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: payment-api
+    SERVICE_PATH: ./code/payment-api
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/payment-api/**/*
+        - .gitlab-ci.yml
+
+# Portal
+portal-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: portal
+    SERVICE_PATH: ./code/portal
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/portal/**/*
+        - .gitlab-ci.yml
+
+# Quiz Service
+quiz-service-build:
+  extends: .build_and_push_template
+  variables:
+    SERVICE_NAME: quiz-service
+    SERVICE_PATH: ./code/quiz-service
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - changes:
+        - code/quiz-service/**/*
+        - .gitlab-ci.yml
